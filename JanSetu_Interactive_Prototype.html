@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JanSetu – Interactive Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1F3A5F;--acc:#C25400;--accl:#FFF4E5;--acct:#A34700;--grn:#1B6B3A;--grnl:#E6F4EA;--red:#B3261E;--redl:#FDECEA;--warn:#7A4E00;--warnl:#FFF3CD;--blu:#2B5C94;--blul:#E8EEF6;--txt:#1A1A1A;--mut:#5F6B7A;--brd:#C9D2DE;--bg:#F5F7FA;--card:#FFFFFF;--hdr:#1F3A5F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1724;--card:#182335;--txt:#EAF0F8;--mut:#A8B4C6;--brd:#33445C;--blul:#22344F;--hdr:#0B1626;--accl:#3A2410;--acct:#FFB870;--grnl:#123524;--redl:#3B1815;--warnl:#3A300E;--warn:#F2D27A;--blu:#8DB6EA;--grn:#7FD3A0;--red:#FF9C94;--navy:#8DB6EA}}
+:root[data-theme="dark"]{--bg:#0F1724;--card:#182335;--txt:#EAF0F8;--mut:#A8B4C6;--brd:#33445C;--blul:#22344F;--hdr:#0B1626;--accl:#3A2410;--acct:#FFB870;--grnl:#123524;--redl:#3B1815;--warnl:#3A300E;--warn:#F2D27A;--blu:#8DB6EA;--grn:#7FD3A0;--red:#FF9C94;--navy:#8DB6EA}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--txt);font-family:'Noto Sans','Noto Sans Bengali','Noto Sans Devanagari',system-ui,sans-serif;font-size:16px;line-height:1.5}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+a{color:var(--blu)}
+:focus-visible{outline:3px solid #F5A04A;outline-offset:2px}
+.skip{position:absolute;left:-999px;top:0;background:#fff;color:#000;padding:8px 12px;z-index:99}.skip:focus{left:8px;top:8px}
+header{background:var(--hdr);color:#fff;position:sticky;top:0;z-index:20}
+.bar{max-width:1100px;margin:auto;display:flex;align-items:center;gap:14px;padding:10px 16px;flex-wrap:wrap}
+.brand{font-weight:700;font-size:20px;color:#fff;text-decoration:none;display:flex;gap:8px;align-items:center}
+.dot{width:26px;height:26px;border-radius:50%;background:#E07B00;display:inline-block}
+nav.top{display:flex;gap:4px;flex:1;flex-wrap:wrap}
+nav.top a{color:#fff;text-decoration:none;padding:8px 12px;border-radius:6px;min-height:44px;display:flex;align-items:center}
+nav.top a[aria-current=page]{box-shadow:inset 0 -3px #E07B00;font-weight:600}
+select,input,textarea{font:inherit;color:var(--txt);background:var(--card);border:1.5px solid #8A97A8;border-radius:8px;padding:10px 12px;min-height:44px;width:100%}
+header select{width:auto;background:#fff;color:#111}
+input[aria-invalid=true]{border-color:var(--red);border-width:2px}
+label{font-weight:600;font-size:14px;display:block;margin:12px 0 4px}
+main{max-width:1100px;margin:auto;padding:20px 16px 90px}
+h1{font-size:clamp(24px,4vw,32px);line-height:1.25;color:var(--navy);margin:8px 0 12px}h2{font-size:22px;color:var(--navy);margin:24px 0 10px}h3{font-size:18px;margin:0 0 6px;color:var(--navy)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;border-radius:8px;border:2px solid var(--acc);background:var(--acc);color:#fff;font:inherit;font-weight:700;cursor:pointer;text-decoration:none}
+.btn.o{background:transparent;color:var(--navy);border-color:var(--navy)}.btn.n{background:var(--navy);border-color:var(--navy);color:#fff}
+:root[data-theme=dark] .btn.n,:root:not([data-theme=light]) .btn.n{color:#0B1626}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.card{background:var(--card);border:1px solid var(--brd);border-radius:12px;padding:16px}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.g4{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.hero{background:var(--hdr);color:#fff;border-radius:14px;padding:28px 22px;display:grid;gap:18px;grid-template-columns:1.6fr 1fr}
+@media(max-width:760px){.hero{grid-template-columns:1fr}}
+.hero h1{color:#fff;font-size:clamp(26px,5vw,38px)}.hero em{color:#FFB870;font-style:normal}
+.search{display:flex;gap:8px}.search input{color:#111;background:#fff}
+.chip{display:inline-block;padding:2px 10px;border-radius:99px;font-size:13px;font-weight:600}
+.ok{background:var(--grnl);color:var(--grn)}.wait{background:var(--accl);color:var(--acct)}.bad{background:var(--redl);color:var(--red)}.info{background:var(--blul);color:var(--blu)}.warnc{background:var(--warnl);color:var(--warn)}
+.pill{background:rgba(255,255,255,.14);color:#fff;border:0;border-radius:99px;padding:6px 12px;cursor:pointer;font:inherit;font-size:14px;min-height:36px}
+.steps{display:flex;gap:6px;margin:8px 0 16px;list-style:none;padding:0;flex-wrap:wrap}
+.steps li{flex:1;min-width:88px;text-align:center;font-size:13px;color:var(--mut)}
+.steps b{display:flex;margin:0 auto 4px;width:32px;height:32px;border-radius:50%;background:#AEB8C6;color:#111;align-items:center;justify-content:center}
+.steps li.done b{background:var(--grn);color:#fff}.steps li.cur b{background:var(--acc);color:#fff}.steps li.cur{color:var(--txt);font-weight:700}
+.err{color:var(--red);font-size:13px;margin-top:4px;font-weight:600}
+.alert{padding:12px 14px;border-radius:10px;background:var(--warnl);color:var(--warn);font-weight:600;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--brd);font-size:14px}th{color:var(--mut)}
+.dz{border:2px dashed var(--navy);border-radius:12px;padding:22px;text-align:center}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.mut{color:var(--mut);font-size:14px}
+.bnav{display:none}
+@media(max-width:720px){nav.top{display:none}.bnav{display:flex;position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--brd);padding-bottom:env(safe-area-inset-bottom,0px);z-index:30}.bnav a{flex:1;text-align:center;padding:10px 2px;font-size:12px;color:var(--mut);text-decoration:none;min-height:52px}.bnav a[aria-current=page]{color:var(--navy);font-weight:700;box-shadow:inset 0 3px var(--acc)}}
+.tl{list-style:none;margin:0;padding:0 0 0 14px;border-left:3px solid var(--brd)}.tl li{margin:0 0 10px;position:relative}.tl li:before{content:"";position:absolute;left:-22px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--grn)}.tl li.off:before{background:#AEB8C6}
+.demo{position:fixed;right:10px;bottom:70px;background:var(--card);border:1px solid var(--brd);border-radius:10px;padding:8px 10px;font-size:12px;z-index:25;max-width:220px}
+#live{position:fixed;left:50%;transform:translateX(-50%);bottom:84px;background:#1A1A1A;color:#fff;padding:10px 16px;border-radius:8px;z-index:40;display:none}
+@media(prefers-reduced-motion:no-preference){.card{transition:box-shadow .15s}.card:hover{box-shadow:0 4px 14px rgba(0,0,0,.12)}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header><div class="bar">
+ <a class="brand" href="#/"><span class="dot" aria-hidden="true"></span>JanSetu</a>
+ <nav class="top" id="topnav" aria-label="Main"></nav>
+ <select id="lang" aria-label="Language"><option value="en">English</option><option value="bn">বাংলা</option><option value="hi">हिन्दी</option></select>
+ <button class="pill" id="theme" aria-label="Toggle dark mode">Dark / Light</button>
+ <span id="auth"></span>
+</div></header>
+<main id="main" tabindex="-1"></main>
+<nav class="bnav" id="bnav" aria-label="Mobile"></nav>
+<div id="live" role="status" aria-live="polite"></div>
+<div class="demo" id="demo" hidden><b>Prototype control</b><br><span class="mut">Simulate the officer:</span><br><button class="btn o" style="min-height:36px;padding:4px 10px;margin-top:6px" id="adv">Advance status</button></div>
+<script>
+const I18={en:{home:"Home",services:"Services",track:"Track",griev:"Grievances",dash:"Dashboard",vault:"Vault",login:"Log in",logout:"Log out",h1a:"Every government service,",h1b:"one trusted place.",sub:"Apply, track and get updates in your language.",ph:"Search a service, e.g. Income Certificate",search:"Search",trk:"Track your application",trkb:"Track status"},
+bn:{home:"হোম",services:"পরিষেবা",track:"ট্র্যাক",griev:"অভিযোগ",dash:"ড্যাশবোর্ড",vault:"ভল্ট",login:"লগ ইন",logout:"লগ আউট",h1a:"সব সরকারি পরিষেবা,",h1b:"এক বিশ্বস্ত জায়গায়।",sub:"আবেদন করুন, ট্র্যাক করুন, আপডেট পান আপনার ভাষায়।",ph:"পরিষেবা খুঁজুন, যেমন আয়ের শংসাপত্র",search:"খুঁজুন",trk:"আপনার আবেদন ট্র্যাক করুন",trkb:"অবস্থা দেখুন"},
+hi:{home:"होम",services:"सेवाएँ",track:"ट्रैक",griev:"शिकायतें",dash:"डैशबोर्ड",vault:"वॉल्ट",login:"लॉग इन",logout:"लॉग आउट",h1a:"हर सरकारी सेवा,",h1b:"एक भरोसेमंद जगह।",sub:"अपनी भाषा में आवेदन करें, ट्रैक करें, अपडेट पाएँ।",ph:"सेवा खोजें, जैसे आय प्रमाण पत्र",search:"खोजें",trk:"अपना आवेदन ट्रैक करें",trkb:"स्थिति देखें"}};
+const SV=[{id:"income",n:"Income Certificate",d:"Revenue Department",t:"7 days",f:"Free",c:"Certificates"},{id:"birth",n:"Birth Certificate",d:"Health & Family Welfare",t:"3 days",f:"Rs 20",c:"Certificates"},{id:"res",n:"Residence Certificate",d:"Revenue Department",t:"5 days",f:"Free",c:"Certificates"},{id:"tax",n:"Property Tax Record",d:"Municipal Corporation",t:"Instant",f:"Free",c:"Civic"},{id:"trade",n:"Trade Licence Approval",d:"Municipal Corporation",t:"10 days",f:"Rs 250",c:"Civic"},{id:"pen",n:"Old-Age Pension",d:"Social Welfare",t:"15 days",f:"Free",c:"Welfare"}];
+const STAT=["Submitted","Under review","Verification","Approved"];
+const S={lang:"en",user:false,ret:null,filter:"All",q:"",step:1,draft:{},docs:[{n:"ID_Proof.pdf",t:"ID proof",v:1},{n:"Photo.jpg",t:"Photograph",v:1}],apps:[{ref:"JS-2026-87740",s:"Residence Certificate",st:3,u:"3 days ago"}],gr:[{id:"GR-2026-0117",c:"Water supply",st:3}],notes:["Welcome to JanSetu"]};
+const $=s=>document.querySelector(s),T=k=>I18[S.lang][k]||k;
+function say(m){const l=$("#live");l.textContent=m;l.style.display="block";clearTimeout(say.t);say.t=setTimeout(()=>l.style.display="none",2600)}
+function chipFor(st){return st==3?'<span class="chip ok">Approved</span>':'<span class="chip wait">'+STAT[st]+'</span>'}
+function go(h){location.hash=h}
+function shell(route){
+ const items=[["#/",T("home")],["#/services",T("services")],["#/track",T("track")],["#/grievance",T("griev")]];
+ if(S.user){items.splice(1,0,["#/dashboard",T("dash")]);items.push(["#/vault",T("vault")])}
+ const h=items.map(([u,l])=>`<a href="${u}" ${route===u?'aria-current="page"':''}>${l}</a>`).join("");
+ $("#topnav").innerHTML=h;$("#bnav").innerHTML=h;
+ $("#auth").innerHTML=S.user?`<button class="btn o" style="color:#fff;border-color:#fff" id="lo">${T("logout")}</button>`:`<a class="btn" href="#/login">${T("login")}</a>`;
+ if($("#lo"))$("#lo").onclick=()=>{S.user=false;say("Logged out");go("#/")};
+ $("#demo").hidden=!(S.user&&route==="#/dashboard");
+}
+const V={};
+V.home=()=>`<section class="hero"><div><h1>${T("h1a")}<br><em>${T("h1b")}</em></h1><p>${T("sub")}</p>
+<form class="search" role="search" id="sf"><label for="q" class="skip">Search</label><input id="q" placeholder="${T("ph")}" autocomplete="off"><button class="btn">${T("search")}</button></form>
+<p style="margin:12px 0 0">Popular: <button class="pill" data-q="Income">Income Certificate</button> <button class="pill" data-q="Birth">Birth Certificate</button> <button class="pill" data-q="Tax">Property Tax</button></p></div>
+<div class="card" style="color:var(--txt)"><h3>${T("trk")}</h3><p class="mut">Use the reference ID from your receipt</p><label for="rid">Reference ID</label><input id="rid" placeholder="e.g. JS-2026-88912"><p><button class="btn" id="tb" style="width:100%">${T("trkb")}</button></p></div></section>
+<h2>Browse by category</h2><div class="grid g4">${["Certificates","Civic","Welfare","Grievance"].map(c=>`<a class="card" href="${c=="Grievance"?"#/grievance":"#/services"}" data-cat="${c}" style="text-decoration:none;color:inherit"><h3>${c}</h3><span class="mut">${SV.filter(s=>s.c==c).length||6} services</span></a>`).join("")}</div>
+<h2>How it works</h2><div class="grid g4">${["Find your service","Fill a simple form","Upload once, reuse","Track and get updates"].map((s,i)=>`<div class="card"><b style="color:var(--acct)">Step ${i+1}</b><h3>${s}</h3></div>`).join("")}</div>`;
+V.home.bind=()=>{$("#sf").onsubmit=e=>{e.preventDefault();S.q=$("#q").value;S.filter="All";go("#/services")};document.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{S.q=b.dataset.q;S.filter="All";go("#/services")});document.querySelectorAll("[data-cat]").forEach(a=>a.onclick=()=>{S.filter=a.dataset.cat;S.q=""});$("#tb").onclick=()=>{const r=$("#rid").value.trim();const a=S.apps.find(x=>x.ref===r);say(a?"Status: "+STAT[a.st]:"Sample ID: JS-2026-87740 (Approved)")}};
+V.services=()=>{const l=SV.filter(s=>(S.filter=="All"||s.c==S.filter)&&s.n.toLowerCase().includes(S.q.toLowerCase()));
+return `<h1>All Services</h1><div class="row"><form class="search" style="flex:1;min-width:240px" id="sf2"><input id="q2" aria-label="Search services" value="${S.q}" placeholder="Search services…"><button class="btn">Search</button></form><div><label for="cf" class="skip">Category</label><select id="cf">${["All","Certificates","Civic","Welfare"].map(c=>`<option ${S.filter==c?"selected":""}>${c}</option>`).join("")}</select></div></div>
+<p class="mut" aria-live="polite">${l.length} service(s) found</p><div class="grid g2">${l.map(s=>`<div class="card"><div class="row"><h3>${s.n}</h3><b>${s.f}</b></div><div class="mut">${s.d}</div><p><span class="chip ok">Online</span> <span class="chip info">${s.t}</span></p><a class="btn o" href="#/service/${s.id}">View details</a></div>`).join("")||'<div class="card">No services match. Try another word.</div>'}</div>`};
+V.services.bind=()=>{$("#sf2").onsubmit=e=>{e.preventDefault();S.q=$("#q2").value;render()};$("#cf").onchange=e=>{S.filter=e.target.value;render()}};
+V.service=id=>{const s=SV.find(x=>x.id==id)||SV[0];return `<p class="mut"><a href="#/services">Services</a> › ${s.n}</p><h1>${s.n}</h1><p><span class="chip info">${s.d}</span> <span class="chip ok">Online</span> <span class="chip warnc">About ${s.t}</span></p>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"><div class="card"><h3>What is this service?</h3><p>An official proof issued by the ${s.d}. It is used for scholarships, benefits and other government services.</p><h3>Who can apply?</h3><ul><li>Resident of the state for at least 3 years</li><li>Age 18 or above</li><li>Valid ID and address proof</li></ul><h3>Documents you will need</h3><ul><li>ID proof (PDF/JPG, up to 2 MB)</li><li>Address proof</li><li>Income declaration</li></ul></div>
+<div class="card" style="border:2px solid var(--acc);align-self:start"><h3>Ready to apply?</h3><p>Fee: <b>${s.f}</b><br>Time: <b>${s.t}</b><br><span class="mut">Takes about 10 minutes</span></p><p><a class="btn" href="#/apply" id="ap" style="width:100%">Apply online</a></p><p><button class="btn o" style="width:100%" id="sv">Save for later</button></p></div></div>`};
+V.service.bind=()=>{$("#ap").onclick=e=>{S.draft={svc:$("h1").textContent};S.step=1};$("#sv").onclick=()=>say("Saved to your dashboard")};
+V.login=()=>`<div class="card" style="max-width:420px;margin:20px auto"><h1>Log in</h1><form id="lf"><label for="u">Email or mobile number</label><input id="u" autocomplete="username" required><label for="p">Password</label><input id="p" type="password" autocomplete="current-password" required><p><a href="#/login">Forgot password?</a> · <a href="#/login">Use OTP instead</a></p><button class="btn" style="width:100%">Log in</button><p class="mut" style="text-align:center">Demo: any details will work</p></form></div>`;
+V.login.bind=()=>{$("#lf").onsubmit=e=>{e.preventDefault();S.user=true;say("Welcome back, Ananya");go(S.ret||"#/dashboard");S.ret=null}};
+const WS=["Eligibility","Personal details","Documents","Review","Submit"];
+function stepper(){return `<ol class="steps" aria-label="Progress">${WS.map((w,i)=>`<li class="${i+1<S.step?"done":i+1==S.step?"cur":""}" ${i+1==S.step?'aria-current="step"':''}><b>${i+1<S.step?"✓":i+1}</b>${w}</li>`).join("")}</ol>`}
+V.apply=()=>{const d=S.draft,e=S.err||{};S.err={};let body="";
+ if(S.step==1)body=`<h2>Check your eligibility</h2><p class="mut">Tick all that apply to you.</p><label><input type="checkbox" id="e1" style="width:auto;min-height:0" ${d.e1?"checked":""}> I have lived in the state for at least 3 years</label><label><input type="checkbox" id="e2" style="width:auto;min-height:0" ${d.e2?"checked":""}> I am 18 years or older</label>${e.el?`<div class="err" role="alert">${e.el}</div>`:""}`;
+ if(S.step==2)body=`<h2>Personal details</h2><p class="mut">We filled in what we already know. Draft saved automatically.</p><div class="grid g2"><div><label for="nm">Full name *</label><input id="nm" value="${d.nm??"Ananya Roy"}"></div><div><label for="dob">Date of birth *</label><input id="dob" type="date" value="${d.dob||""}" ${e.dob?'aria-invalid="true"':''}>${e.dob?`<div class="err">${e.dob}</div>`:""}</div><div><label for="mo">Mobile number *</label><input id="mo" value="${d.mo??"+91 98000 00010"}"></div><div><label for="dt">District *</label><select id="dt"><option value="">Select district</option>${["Kolkata","Howrah","North 24 Parganas"].map(x=>`<option ${d.dt==x?"selected":""}>${x}</option>`).join("")}</select>${e.dt?`<div class="err">${e.dt}</div>`:""}</div></div><label for="ad">Address *</label><input id="ad" value="${d.ad||""}" placeholder="House no., street, ward" ${e.ad?'aria-invalid="true"':''}>${e.ad?`<div class="err">${e.ad}</div>`:""}<label for="inc">Annual family income (Rs) *</label><input id="inc" inputmode="numeric" value="${d.inc||""}" ${e.inc?'aria-invalid="true"':''}>${e.inc?`<div class="err">${e.inc}</div>`:""}`;
+ if(S.step==3){d.dc=d.dc||{};body=`<h2>Documents</h2><p class="mut">Choose from your vault or upload new. PDF, JPG or PNG, max 2 MB.</p>${["ID proof","Address proof","Income declaration"].map(k=>`<div class="card" style="margin-bottom:10px"><div class="row"><div><b>${k} *</b><div class="mut">${d.dc[k]||"Not added yet"}</div></div><div>${d.dc[k]?'<span class="chip ok">Added</span>':`<button class="btn o" data-v="${k}">From vault</button> <button class="btn o" data-u="${k}">Upload new</button>`}</div></div></div>`).join("")}${e.dc?`<div class="err" role="alert">${e.dc}</div>`:""}`}
+ if(S.step==4)body=`<h2>Review your application</h2><div class="card"><table><tr><th>Service</th><td>${d.svc||"Income Certificate"}</td></tr><tr><th>Name</th><td>${d.nm??"Ananya Roy"}</td></tr><tr><th>District</th><td>${d.dt}</td></tr><tr><th>Income</th><td>Rs ${d.inc}</td></tr><tr><th>Documents</th><td>${Object.values(d.dc).join(", ")}</td></tr></table></div><label><input type="checkbox" id="dec" style="width:auto;min-height:0"> I confirm the information is correct</label>${e.dec?`<div class="err" role="alert">${e.dec}</div>`:""}`;
+ return `<p class="mut"><a href="#/services">Services</a> › Apply</p><h1>Apply: ${d.svc||"Income Certificate"}</h1>${stepper()}<div class="card">${body}<div class="row" style="margin-top:18px"><button class="btn o" id="bk" ${S.step==1?"disabled":""}>‹ Back</button><button class="btn" id="nx">${S.step==4?"Submit application":"Next ›"}</button></div></div>`};
+V.apply.bind=()=>{const d=S.draft;const save=()=>{["nm","dob","mo","dt","ad","inc"].forEach(k=>{const el=$("#"+k);if(el)d[k]=el.value});if($("#e1")){d.e1=$("#e1").checked;d.e2=$("#e2").checked}};
+ $("#bk").onclick=()=>{save();S.step--;render()};
+ document.querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>{d.dc[b.dataset.v]=S.docs[0].n+" (vault)";render()});document.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>{d.dc[b.dataset.u]="new_"+b.dataset.u.split(" ")[0]+".pdf (uploaded)";S.docs.push({n:d.dc[b.dataset.u].split(" ")[0],t:b.dataset.u,v:0});render()});
+ $("#nx").onclick=()=>{save();const er={};
+  if(S.step==1&&!(d.e1&&d.e2))er.el="You must meet both conditions to apply for this service.";
+  if(S.step==2){if(!d.dob)er.dob="Enter your date of birth.";if(!d.dt)er.dt="Select your district.";if(!d.ad)er.ad="Enter your address.";if(!/^\d+$/.test((d.inc||"").replace(/,/g,"")))er.inc="Enter a whole number in rupees, e.g. 120000"}
+  if(S.step==3&&Object.keys(d.dc).length<3)er.dc="Please add all three required documents.";
+  if(S.step==4&&!$("#dec").checked)er.dec="Please confirm to submit.";
+  if(Object.keys(er).length){S.err=er;render();const f=document.querySelector("[aria-invalid=true],.err");f&&f.scrollIntoView({block:"center"});return}
+  if(S.step==4){const ref="JS-2026-"+(88900+Math.floor(Math.random()*90));S.apps.unshift({ref,s:d.svc||"Income Certificate",st:0,u:"Just now"});S.notes.unshift("Application "+ref+" received");S.done=ref;go("#/done");return}
+  S.step++;render()}};
+V.done=()=>`<div class="card" style="max-width:520px;margin:20px auto;text-align:center"><div style="font-size:44px;color:var(--grn)" aria-hidden="true">✓</div><h1>Application submitted</h1><p>Your reference ID</p><p style="font-size:26px;font-weight:700;color:var(--acct)">${S.done||"JS-2026-88912"}</p><p class="mut">We will notify you on every status change.</p><a class="btn" href="#/dashboard">Go to dashboard</a></div>`;
+V.dashboard=()=>{const a=S.apps[0];return `<h1>Good morning, Ananya</h1><div class="row"><span class="mut">Here is what needs your attention today.</span><a class="btn" href="#/services">+ Apply new service</a></div>
+<div class="alert" style="margin:14px 0"><span>Action needed: upload address proof if requested by the officer.</span><a class="btn n" href="#/vault">Open vault</a></div>
+<div class="grid g3"><div class="card"><h2 style="margin:0">${S.apps.filter(x=>x.st<3).length}</h2>In progress</div><div class="card"><h2 style="margin:0;color:var(--grn)">${S.apps.filter(x=>x.st==3).length}</h2>Approved</div><div class="card"><h2 style="margin:0;color:var(--acct)">1</h2>Action needed</div></div>
+<div class="grid g2" style="margin-top:14px"><div class="card"><h3>Application status tracker</h3><p class="mut">${a.ref} — ${a.s}</p><ol class="steps">${STAT.map((s,i)=>`<li class="${i<a.st||a.st==3?"done":i==a.st?"cur":""}"><b>${i<a.st||a.st==3?"✓":i+1}</b>${s}</li>`).join("")}</ol><p class="mut">Estimated decision: 3 working days</p></div><div class="card"><h3>Notifications</h3><ul style="padding-left:18px">${S.notes.slice(0,4).map(n=>`<li>${n}</li>`).join("")}</ul></div></div>
+<h2>My applications</h2><div class="card" style="overflow-x:auto"><table><tr><th>Reference</th><th>Service</th><th>Status</th><th>Updated</th></tr>${S.apps.map(x=>`<tr><td>${x.ref}</td><td>${x.s}</td><td>${chipFor(x.st)}</td><td>${x.u}</td></tr>`).join("")}</table></div>`};
+V.dashboard.bind=()=>{$("#adv").onclick=()=>{const a=S.apps[0];if(a.st<3){a.st++;a.u="Just now";S.notes.unshift(a.ref+": "+STAT[a.st]);say("Officer updated status: "+STAT[a.st]);render()}else say("Already approved")}};
+V.track=()=>`<h1>Track an application</h1><div class="card" style="max-width:480px"><label for="r2">Reference ID</label><input id="r2" placeholder="e.g. JS-2026-87740"><p><button class="btn" id="t2">Track status</button></p><div id="tr" aria-live="polite"></div></div>`;
+V.track.bind=()=>{$("#t2").onclick=()=>{const r=$("#r2").value.trim(),a=S.apps.find(x=>x.ref===r);$("#tr").innerHTML=a?`<p>${a.s}: ${chipFor(a.st)}</p>`:'<p class="err">No application found. Check the ID on your receipt.</p>'}};
+V.vault=()=>`<h1>Document Vault</h1><p class="mut">Upload once. Reuse in any application. Files are encrypted.</p><div class="dz"><b>Drag and drop files here</b><p class="mut">PDF, JPG or PNG — max 2 MB each</p><button class="btn n" id="up">Choose files (simulated)</button></div><h2>Your documents (${S.docs.length})</h2><div class="grid g3">${S.docs.map((d,i)=>`<div class="card"><b>${d.n}</b><div class="mut">${d.t}</div><p>${d.v?'<span class="chip ok">Verified</span>':'<span class="chip warnc">Pending</span>'}</p><button class="btn o" data-del="${i}" style="min-height:36px">Delete</button></div>`).join("")}</div>`;
+V.vault.bind=()=>{$("#up").onclick=()=>{S.docs.push({n:"Scan_"+(S.docs.length+1)+".pdf",t:"Uploaded document",v:0});say("File added");render()};document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{S.docs.splice(+b.dataset.del,1);render()})};
+V.grievance=()=>`<h1>Report a problem</h1><div class="grid g2"><div class="card"><form id="gf"><label for="gc">Category *</label><select id="gc"><option>Streetlight not working</option><option>Road repair</option><option>Water supply</option><option>Sanitation</option></select><label for="gl">Location *</label><input id="gl" placeholder="Ward, landmark"><label for="gd">Describe the problem *</label><textarea id="gd" rows="4" maxlength="500"></textarea><div id="ge"></div><p><button class="btn" style="width:100%">Submit grievance</button></p></form></div><div class="card"><h3>My grievances</h3><ul class="tl" style="margin-top:12px">${S.gr.map(g=>`<li><b>${g.id}</b> — ${g.c} ${g.st==3?'<span class="chip ok">Resolved</span>':'<span class="chip wait">Received</span>'}</li>`).join("")}</ul></div></div>`;
+V.grievance.bind=()=>{$("#gf").onsubmit=e=>{e.preventDefault();if(!S.user){S.ret="#/grievance";say("Please log in to file a grievance");return go("#/login")}if(!$("#gl").value.trim()||!$("#gd").value.trim()){$("#ge").innerHTML='<div class="err" role="alert">Please fill location and description.</div>';return}S.gr.unshift({id:"GR-2026-0"+(142+S.gr.length),c:$("#gc").value,st:0});say("Grievance submitted");render()}};
+function render(){const h=location.hash||"#/";const [_,r,id]=h.split("/");let route="#/"+(r||"");
+ if((r=="apply"||r=="dashboard"||r=="vault")&&!S.user){S.ret=h;return go("#/login")}
+ const key=r||"home";const view=V[key]||V.home;shell(route);$("#main").innerHTML=view(id);view.bind&&view.bind();
+ document.documentElement.lang=S.lang;window.scrollTo(0,0)}
+$("#lang").onchange=e=>{S.lang=e.target.value;render()};
+$("#theme").onclick=()=>{const d=document.documentElement,dark=getComputedStyle(d).getPropertyValue("--bg").trim()==="#0F1724";d.setAttribute("data-theme",dark?"light":"dark")};
+addEventListener("hashchange",render);render();
+</script>
+</body>
+</html>
