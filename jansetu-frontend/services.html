@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Services | JanSetu</title>
+<meta name="description" content="Browse and search all government services.">
+<!-- Apply saved theme and text size before first paint (prevents a flash of the wrong theme) -->
+<script>(function(){try{var s=localStorage,t=JSON.parse(s.getItem('js.theme')||'null');if(!t&&matchMedia('(prefers-color-scheme: dark)').matches)t='dark';if(t)document.documentElement.dataset.theme=t;var x=JSON.parse(s.getItem('js.text')||'null');if(x)document.documentElement.dataset.text=x;}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="container header__bar">
+    <a class="brand" href="index.html"><span class="brand__mark" aria-hidden="true"></span>JanSetu</a>
+
+    <!-- Hamburger: visible on small screens only. aria-expanded / aria-controls describe its state to screen readers. -->
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+      <span class="sr-only">Menu</span>
+      <span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span>
+    </button>
+
+    <nav id="primary-nav" class="nav" aria-label="Primary">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="index.html" data-i18n="nav.home">Home</a></li>
+        <li class="has-sub">
+          <button class="nav__link" type="button" aria-expanded="false" aria-controls="sub-services" aria-haspopup="true" aria-current="page">
+            <span data-i18n="nav.services">Services</span><span class="caret" aria-hidden="true"></span>
+          </button>
+          <ul class="subnav" id="sub-services" hidden>
+            <li><a href="services.html">All services</a></li>
+            <li><a href="services.html?cat=Certificates">Certificates</a></li>
+            <li><a href="services.html?cat=Civic">Civic services</a></li>
+            <li><a href="services.html?cat=Welfare">Welfare schemes</a></li>
+            <li><a href="services.html?cat=Grievance">Grievances</a></li>
+          </ul>
+        </li>
+        <li><a class="nav__link" href="track.html" data-i18n="nav.track">Track</a></li>
+        <li><a class="nav__link" href="apply.html" data-i18n="nav.apply">Apply</a></li>
+      </ul>
+      <div class="tools">
+        <label class="sr-only" for="lang">Language</label>
+        <select id="lang"><option value="en">English</option><option value="hi">हिन्दी</option><option value="bn">বাংলা</option></select>
+        <button class="tool-btn" id="text-size" type="button" aria-label="Change text size">A</button>
+        <button class="tool-btn" id="theme-toggle" type="button" aria-pressed="false">Dark mode</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="section">
+  <div class="container">
+    <h1>All services</h1>
+    <div class="filters">
+      <form id="search-form" role="search" class="search" style="margin:0">
+        <label class="sr-only" for="q">Search services</label>
+        <input type="search" id="q" placeholder="Search by name, department or keyword" autocomplete="off">
+        <button class="btn" type="submit">Search</button>
+      </form>
+      <div class="field" style="margin:0">
+        <label for="sort">Sort by</label>
+        <select id="sort"><option value="relevance">Default</option><option value="title">Name (A to Z)</option><option value="days">Fastest first</option></select>
+      </div>
+    </div>
+    <div class="chips" id="cat-chips" role="group" aria-label="Filter by category"></div>
+    <p class="muted" id="count" role="status" aria-live="polite" style="margin-top:1rem"></p>
+    <div class="grid grid--auto" id="results"></div>
+  </div>
+</section>
+<dialog class="modal" id="service-modal" aria-labelledby="modal-title">
+  <div class="modal__head">
+    <h2 id="modal-title">Service</h2>
+    <button class="btn btn--ghost" id="modal-close" type="button" aria-label="Close dialog">&#10005;</button>
+  </div>
+  <div class="modal__body" id="modal-body"></div>
+  <div class="modal__foot">
+    <button class="btn btn--outline" id="modal-dismiss" type="button">Close</button>
+    <a class="btn" id="modal-apply" href="apply.html">Apply online</a>
+  </div>
+</dialog>
+
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <span>JanSetu &copy; 2026 &middot; Front-end prototype (Week 3)</span>
+    <span><a href="#main">Back to top</a> &middot; Helpline 1800-000-000 (sample)</span>
+  </div>
+</footer>
+
+<div class="toast-region" id="toast-region" role="status" aria-live="polite"></div>
+<script src="js/utils.js"></script>
+<script src="js/data.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/services.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "jansetu-frontend",
+  "version": "1.0.0",
+  "description": "JanSetu e-governance portal - front-end prototype (HTML, CSS, JavaScript)",
+  "scripts": {
+    "start": "npx serve .",
+    "test": "node --test tests/validators.test.js"
+  },
+  "license": "MIT"
+}
