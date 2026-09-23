@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apply | JanSetu</title>
+<meta name="description" content="Apply for a government service online.">
+<!-- Apply saved theme and text size before first paint (prevents a flash of the wrong theme) -->
+<script>(function(){try{var s=localStorage,t=JSON.parse(s.getItem('js.theme')||'null');if(!t&&matchMedia('(prefers-color-scheme: dark)').matches)t='dark';if(t)document.documentElement.dataset.theme=t;var x=JSON.parse(s.getItem('js.text')||'null');if(x)document.documentElement.dataset.text=x;}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="container header__bar">
+    <a class="brand" href="index.html"><span class="brand__mark" aria-hidden="true"></span>JanSetu</a>
+
+    <!-- Hamburger: visible on small screens only. aria-expanded / aria-controls describe its state to screen readers. -->
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+      <span class="sr-only">Menu</span>
+      <span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span><span class="nav-toggle__bar"></span>
+    </button>
+
+    <nav id="primary-nav" class="nav" aria-label="Primary">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="index.html" data-i18n="nav.home">Home</a></li>
+        <li class="has-sub">
+          <button class="nav__link" type="button" aria-expanded="false" aria-controls="sub-services" aria-haspopup="true">
+            <span data-i18n="nav.services">Services</span><span class="caret" aria-hidden="true"></span>
+          </button>
+          <ul class="subnav" id="sub-services" hidden>
+            <li><a href="services.html">All services</a></li>
+            <li><a href="services.html?cat=Certificates">Certificates</a></li>
+            <li><a href="services.html?cat=Civic">Civic services</a></li>
+            <li><a href="services.html?cat=Welfare">Welfare schemes</a></li>
+            <li><a href="services.html?cat=Grievance">Grievances</a></li>
+          </ul>
+        </li>
+        <li><a class="nav__link" href="track.html" data-i18n="nav.track">Track</a></li>
+        <li><a class="nav__link" href="apply.html" aria-current="page" data-i18n="nav.apply">Apply</a></li>
+      </ul>
+      <div class="tools">
+        <label class="sr-only" for="lang">Language</label>
+        <select id="lang"><option value="en">English</option><option value="hi">हिन्दी</option><option value="bn">বাংলা</option></select>
+        <button class="tool-btn" id="text-size" type="button" aria-label="Change text size">A</button>
+        <button class="tool-btn" id="theme-toggle" type="button" aria-pressed="false">Dark mode</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<noscript><div class="container" style="padding-top:1rem"><div class="notice notice--warn">This page needs JavaScript to search, submit forms and show results. Please enable JavaScript in your browser settings and reload the page.</div></div></noscript>
+<section class="section">
+  <div class="container" style="max-width:48rem">
+    <h1>Apply for a service</h1>
+    <p class="muted" id="step-count" aria-live="polite">Step 1 of 5</p>
+
+    <ol class="stepper" aria-label="Application progress">
+      <li data-n="1" data-state="current"><span class="stepper__label">Service</span></li>
+      <li data-n="2" data-state="todo"><span class="stepper__label">Details</span></li>
+      <li data-n="3" data-state="todo"><span class="stepper__label">Documents</span></li>
+      <li data-n="4" data-state="todo"><span class="stepper__label">Review</span></li>
+      <li data-n="5" data-state="todo"><span class="stepper__label">Done</span></li>
+    </ol>
+
+    <div class="notice notice--warn" id="restore-note" hidden>
+      <span class="restore-text">We restored your saved draft.</span> <button class="btn btn--ghost" id="start-over" type="button" style="min-height:2rem;text-decoration:underline">Start over</button>
+    </div>
+    <div class="notice notice--warn" id="storage-warning" role="alert" hidden>
+      Your browser is blocking saved data (for example, private browsing mode). Your progress and application will not be saved after you close this page.
+    </div>
+
+    <div class="card" id="steps-root" style="margin-top:1rem">
+      <div class="error-summary" id="error-summary" role="alert" tabindex="-1" hidden></div>
+
+      <!-- Step 1 -->
+      <div data-step="1" id="step-1">
+        <h2>Choose a service</h2>
+        <div class="field">
+          <label for="service">Service <span class="req" aria-hidden="true">*</span></label>
+          <select id="service" aria-describedby="service-err"></select>
+          <p class="field__error" id="service-err"></p>
+        </div>
+        <div id="eligibility"></div>
+      </div>
+
+      <!-- Step 2: fields are generated by apply.js from the selected service -->
+      <div data-step="2" id="step-2" hidden>
+        <h2>Your details</h2>
+        <div class="form-grid" id="base-fields"></div>
+        <div class="form-grid" id="dynamic-fields"></div>
+      </div>
+
+      <!-- Step 3 -->
+      <div data-step="3" id="step-3" hidden>
+        <h2>Upload documents</h2>
+        <div id="docs"></div>
+      </div>
+
+      <!-- Step 4 -->
+      <div data-step="4" id="step-4" hidden>
+        <h2>Review and submit</h2>
+        <div id="review"></div>
+        <label class="check" style="margin-top:1rem"><input type="checkbox" id="declare" aria-describedby="declare-err"> <span>I confirm that the information and documents are correct.</span></label>
+        <p class="field__error" id="declare-err"></p>
+      </div>
+
+      <!-- Step 5 -->
+      <div data-step="5" id="step-5" class="success" hidden>
+        <div class="tick" aria-hidden="true">&#10003;</div>
+        <h2>Application submitted</h2>
+        <p>Your reference ID</p>
+        <p><span class="refcode" id="ref-code">JS-2026-00000</span></p>
+        <p class="muted">Keep this number. You will be notified when the status changes.</p>
+        <p><button class="btn btn--outline" id="copy-ref" type="button">Copy ID</button>
+           <a class="btn" id="track-link" href="track.html">Track application</a></p>
+      </div>
+
+      <div class="wizard-nav">
+        <button class="btn btn--outline" id="btn-back" type="button" hidden>Back</button>
+        <span class="muted" id="draft-status" aria-live="polite" style="align-self:center"></span>
+        <span>
+          <button class="btn btn--outline" id="btn-save" type="button">Save draft</button>
+          <button class="btn" id="btn-next" type="button">Next</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <span>JanSetu &copy; 2026 &middot; Front-end prototype (Week 3)</span>
+    <span><a href="#main">Back to top</a> &middot; Helpline 1800-000-000 (sample)</span>
+  </div>
+</footer>
+
+<div class="toast-region" id="toast-region" role="status" aria-live="polite"></div>
+<script src="js/utils.js"></script>
+<script src="js/validators.js"></script>
+<script src="js/data.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/apply.js"></script>
+</body>
+</html>
